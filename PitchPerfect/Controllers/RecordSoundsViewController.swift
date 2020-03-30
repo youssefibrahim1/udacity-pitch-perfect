@@ -1,10 +1,3 @@
-//
-//  RecordSoundsViewController.swift
-//  PitchPerfect
-//
-//  Created by Youssef Ibrahim on 2020-03-29.
-//  Copyright © 2020 Youssef Ibrahim. All rights reserved.
-//
 
 import UIKit
 import AVFoundation
@@ -21,7 +14,6 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         stopRecordingButton.isEnabled = false
     }
     
@@ -32,10 +24,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     
     @IBAction func buttonPressed(_ sender: Any) {
-        recordingLabel.text = "Recording in Progress"
-         stopRecordingButton.isEnabled = true
-        recordButton.isEnabled = false
-        
+        setLabelAndEnable(recording: true)
         let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask, true)[0] as String
         let recordingName = "recordedVoice.wav"
         let pathArray = [dirPath, recordingName]
@@ -53,9 +42,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
 
     @IBAction func stopRecording(_ sender: Any) {
-        recordingLabel.text = "Recording Stopped"
-        stopRecordingButton.isEnabled = false
-        recordButton.isEnabled = true
+        setLabelAndEnable(recording: false)
         
         audioRecorder.stop()
         let audioSession = AVAudioSession.sharedInstance()
@@ -63,7 +50,6 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-        print("Finished Recording!")
         
         if flag {
             performSegue(withIdentifier: "stopRecording", sender: audioRecorder.url)
@@ -78,6 +64,23 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
                      let recordedAudioURL = sender as! URL
                      playSoundsVc.recordedAudioURL = recordedAudioURL
                  }
+    }
+    
+    func setLabelAndEnable(recording: Bool){
+        
+        var showLabel: String = ""
+        if recording {
+            recordingLabel.textColor = UIColor.green
+            recordingLabel.text = "Recording in Progress"
+
+        } else {
+            recordingLabel.textColor = UIColor.red
+
+            recordingLabel.text = "Recording Stopped"
+        }
+        stopRecordingButton.isEnabled = recording
+        recordButton.isEnabled = !recording
+        
     }
     
 }

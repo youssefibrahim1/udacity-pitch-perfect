@@ -1,10 +1,3 @@
-//
-//  PlaySoundViewController.swift
-//  PitchPerfect
-//
-//  Created by Youssef Ibrahim on 2020-03-30.
-//  Copyright © 2020 Youssef Ibrahim. All rights reserved.
-//
 
 import UIKit
 import AVFoundation
